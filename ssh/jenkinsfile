@@ -1,6 +1,6 @@
-@Library("jenkins-pipeline-library")_
+@Library("NAME OF JENKINS SHARED LIBRERIES")_
 pipeline {
-    agent {label 'apv2'}
+    agent {label 'NAME NODE 1'}
     stages {
         stage('sshGet') {
             steps {
@@ -20,11 +20,11 @@ pipeline {
     //            sh 'mkdir sshPut'
     //            sh "touch sshPut/file.txt file2txt sshPut/file3.txt sshPut/file4.txt sshPut/file5.txt sshPut/file6.txt sshPut/file.log sshPut/file2.log"
                 //sshUtils("get", "${params.BAMBOO_AGENT}", "testauto-username-and-password", "${params.AGENT_WORKSPACE}/", filterRegex: /\.zip$/)
-    //            putOverSsh(sshRemote("sca-test", "testauto-username-and-password", logLevel: "FINEST"), "./sshPut", "/tmp/folder" , filterRegex: /\.txt$/ )
-                //execScriptOverSsh(sshRemote("sca-test", "testauto-username-and-password", logLevel: "FINEST"), "${fileContent}")
-                //execCommandOverSsh(sshRemote("sca-test", "testauto-username-and-password"), "cd /tmp && ls -ahlrt")
-                removeOverSsh(sshRemote("sca-test", "testauto-username-and-password"), "/tmp/folder/sshPut/file3.txt")
-                //getOverSsh(sshRemote("sca-test", "testauto-username-and-password"), "/tmp/folder" , filterRegex: /\.txt$/ )
+    //            putOverSsh(sshRemote("", "testauto-username-and-password", logLevel: "FINEST"), "./sshPut", "/tmp/folder" , filterRegex: /\.txt$/ )
+                //execScriptOverSsh(sshRemote("NAME NODE 2", "testauto-username-and-password", logLevel: "FINEST"), "${fileContent}")
+                //execCommandOverSsh(sshRemote("NAME NODE 2", "testauto-username-and-password"), "cd /tmp && ls -ahlrt")
+                removeOverSsh(sshRemote("NAME NODE 2", "testauto-username-and-password"), "/tmp/folder/sshPut/file3.txt")
+                //getOverSsh(sshRemote("NAME NODE 2", "testauto-username-and-password"), "/tmp/folder" , filterRegex: /\.txt$/ )
             }
         }
     }
