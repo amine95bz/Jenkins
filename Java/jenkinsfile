@@ -18,17 +18,17 @@ pipeline {
           def newVersion = currentBuild.startTimeInMillis + "." +  SHORTREV         
           VERSION = pom.version.replaceAll('SNAPSHOT', newVersion)
         }
-        configFileProvider([configFile(fileId: '6722defd-1a19-405a-afcf-049a524331eb', targetLocation: "${WORKSPACE}/toolchains.xml")]) {
+        configFileProvider([configFile(fileId: '...', targetLocation: "${WORKSPACE}/toolchains.xml")]) {
           sh """sed -i \"s|JAVA8_HOME|${JAVA8_HOME}|g\" \"${WORKSPACE}/toolchains.xml\""""
         }
-        withMaven(jdk: 'jdk_1.8.0_202', maven: 'maven-3.6.3', mavenSettingsConfig: '0ef0cb49-82a9-4e22-835b-aab262ca5b48') {
+        withMaven(jdk: 'jdk_1.8.0_202', maven: 'maven-3.6.3', mavenSettingsConfig: '...') {
           sh """mvn -B org.codehaus.mojo:versions-maven-plugin:2.5:set -DnewVersion=${VERSION} -f ./pom.xml"""
         }
       }
     }
     stage('Build') {
       steps {
-        withMaven(jdk: 'jdk_1.8.0_202', maven: 'maven-3.6.3', mavenSettingsConfig: '0ef0cb49-82a9-4e22-835b-aab262ca5b48') {
+        withMaven(jdk: 'jdk_1.8.0_202', maven: 'maven-3.6.3', mavenSettingsConfig: '...') {
           sh "mvn package -Dmaven.test.skip=true"
           sh "mvn deploy"
         }
