@@ -1,0 +1,38 @@
+pipeline {
+  agent any
+  options {
+    buildDiscarder logRotator(numToKeepStr: '10')
+  }
+  environment {
+  	JAVA8_HOME = tool name: 'jdk_1.8.0_202'
+    MAVEN_OPTIONS = "maven_opts"
+  }
+  stages{
+    stage('Init Env') {
+      steps {
+        cleanWs()
+        checkout scm
+        script {
+          SHORTREV = "${GIT_COMMIT[0..7]}"
+          def pom = readMavenPom file: 'pom.xml'            
+          def newVersion = currentBuild.startTimeInMillis + "." +  SHORTREV         
+          VERSION = pom.version.replaceAll('SNAPSHOT', newVersion)
+        }
+        configFileProvider([configFile(fileId: '6722defd-1a19-405a-afcf-049a524331eb', targetLocation: "${WORKSPACE}/toolchains.xml")]) {
+          sh """sed -i \"s|JAVA8_HOME|${JAVA8_HOME}|g\" \"${WORKSPACE}/toolchains.xml\""""
+        }
+        withMaven(jdk: 'jdk_1.8.0_202', maven: 'maven-3.6.3', mavenSettingsConfig: '0ef0cb49-82a9-4e22-835b-aab262ca5b48') {
+          sh """mvn -B org.codehaus.mojo:versions-maven-plugin:2.5:set -DnewVersion=${VERSION} -f ./pom.xml"""
+        }
+      }
+    }
+    stage('Build') {
+      steps {
+        withMaven(jdk: 'jdk_1.8.0_202', maven: 'maven-3.6.3', mavenSettingsConfig: '0ef0cb49-82a9-4e22-835b-aab262ca5b48') {
+          sh "mvn package -Dmaven.test.skip=true"
+          sh "mvn deploy"
+        }
+      }
+    }
+  }
+}

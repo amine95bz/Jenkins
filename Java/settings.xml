@@ -1,0 +1,23 @@
+<settings ....>
+  <localRepository>${WORKSPACE}/.m2</localRepository>
+  <servers>
+    <server>
+      <id>artifactory</id>
+    </server>
+  </servers>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>internal</id>
+          <name>....</name>
+          <url>....</url>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+</settings>

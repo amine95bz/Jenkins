@@ -1,0 +1,11 @@
+<toolchains>
+  <toolchain>
+    <type>jdk</type>
+    <provides>
+      <version>1.8</version>
+    </provides>
+    <configuration>
+      <jdkHome>JAVA8_HOME</jdkHome>
+    </configuration>
+  </toolchain>
+</toolchains>
